@@ -10,6 +10,14 @@
 const BASE = "https://api.open-meteo.com/v1/forecast";
 
 // P2: 여기에 getForecast 를 씁니다.
+export async function getForecast({ lat, lon }) {
+  const fields = "temperature_2m_max,precipitation_probability_max,wind_speed_10m_max";
+  const url = `${BASE}?latitude=${lat}&longitude=${lon}&daily=${fields}&timezone=Asia/Seoul&forecast_days=7`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return data.daily;
+}
 
 // ---- 주어짐: 인터넷이 안 될 때만 씁니다 (README 부록 E5) ----
 // data/ 폴더에 저장해 둔 실제 응답(11/5 받은 것)을 getForecast 와 같은 모양으로 돌려줍니다.
